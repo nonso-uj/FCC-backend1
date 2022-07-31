@@ -25,6 +25,40 @@ app.get("/api/hello", function (req, res) {
 });
 
 
+// params 
+// can convert both date types ..
+// can return clean error if input not valid ..
+// can handle all dates that can be successfully parsed by new Date(date_string)
+// empty date return current time in unix & utc
+
+app.get("/api/:date?", function(req, res){
+  let date = req.params.date;
+  let match = /[\D]/g;
+
+  let tempDate
+  if(date === undefined){
+    tempDate = new Date()
+  }else if(match.test(date) == false){
+    tempDate = new Date(Number(date))
+  }else{
+    tempDate = new Date(date)
+  }
+
+  // if invalid date string input
+  let reply
+  if(tempDate == 'Invalid Date'){
+    reply = {error: "Invalid Date"}
+  }else{
+    reply = {
+      unix: tempDate.getTime(),
+      utc: tempDate.toUTCString()
+    }
+  }
+
+  res.json(reply);
+});
+
+
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
