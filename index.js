@@ -50,7 +50,7 @@ app.get("/api/:date?", function(req, res){
     reply = {error: "Invalid Date"}
   }else{
     reply = {
-      unix: tempDate.getTime(),
+      unix: Number(tempDate.getTime()),
       utc: tempDate.toUTCString()
     }
   }
